@@ -127,6 +127,7 @@
     <Compile Include="DAL\DataSettings.cs" />
     <Compile Include="DAL\IBreweryRepository.cs" />
     <Compile Include="DAL\IBreweryDataService.cs" />
+    <Compile Include="DAL\InitializeSeedData.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -175,6 +176,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Brewery\Index.cshtml" />
     <Content Include="Views\Brewery\Details.cshtml" />
+    <Content Include="Views\Brewery\Create.cshtml" />
+    <Content Include="Views\Brewery\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

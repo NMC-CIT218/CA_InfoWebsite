@@ -10,9 +10,7 @@ namespace CA_InfoWebsite.Controllers
 {
     public class BreweryController : Controller
     {
-        // IBreweryDataService _dataService = new BreweryXmlDataService();
 
-        // GET: Brewery
         public ActionResult Index()
         {
             BreweryRepository breweryRepository = new BreweryRepository();
@@ -26,7 +24,7 @@ namespace CA_InfoWebsite.Controllers
             return View(breweries);
         }
 
-        // GET: Brewery/Details/5
+
         public ActionResult Details(int id)
         {
             BreweryRepository breweryRepository = new BreweryRepository();
@@ -40,37 +38,43 @@ namespace CA_InfoWebsite.Controllers
             return View(brewery);
         }
 
-        // GET: Brewery/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Brewery/Create
+        
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Brewery brewery)
         {
             try
             {
-                // TODO: Add insert logic here
+                BreweryRepository breweryRepository = new BreweryRepository();
+
+                using (breweryRepository)
+                {
+                    breweryRepository.Insert(brewery);
+                }
 
                 return RedirectToAction("Index");
             }
             catch
             {
+                // TODO Add view for error message
                 return View();
             }
         }
 
-        // GET: Brewery/Edit/5
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Brewery/Edit/5
+
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Brewery brewery)
         {
             try
             {
@@ -80,6 +84,7 @@ namespace CA_InfoWebsite.Controllers
             }
             catch
             {
+                // TODO Add view for error message
                 return View();
             }
         }
@@ -102,6 +107,7 @@ namespace CA_InfoWebsite.Controllers
             }
             catch
             {
+                // TODO Add view for error message
                 return View();
             }
         }
