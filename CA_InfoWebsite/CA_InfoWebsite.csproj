@@ -120,6 +120,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BreweryController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DAL\BreweryRepository.cs" />
     <Compile Include="DAL\BreweryXmlDataService.cs" />
@@ -134,7 +135,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\NMMDb.XML" />
+    <Content Include="App_Data\NMMDb.XML">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Content\bootstrap_org.css" />
     <Content Include="Content\bootstrap.min_org.css" />
     <Content Include="Content\lavish-bootstrap.css" />
@@ -170,6 +173,8 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Brewery\Index.cshtml" />
+    <Content Include="Views\Brewery\Details.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

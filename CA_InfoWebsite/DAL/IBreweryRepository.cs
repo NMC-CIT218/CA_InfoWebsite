@@ -6,7 +6,7 @@ using System.Web;
 
 namespace CA_InfoWebsite.DAL
 {
-    public interface IBrewryRepository
+    public interface IBreweryRepository
     {
         IEnumerable<Brewery> SelectAll();
         Brewery SelectOne(int id);
