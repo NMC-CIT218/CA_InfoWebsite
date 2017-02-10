@@ -69,7 +69,15 @@ namespace CA_InfoWebsite.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            return View();
+            BreweryRepository breweryRepository = new BreweryRepository();
+            Brewery brewery = new Brewery();
+
+            using (breweryRepository)
+            {
+                brewery = breweryRepository.SelectOne(id);
+            }
+
+            return View(brewery);
         }
 
 
@@ -78,7 +86,12 @@ namespace CA_InfoWebsite.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                BreweryRepository breweryRepository = new BreweryRepository();
+
+                using (breweryRepository)
+                {
+                    breweryRepository.Update(id, brewery);
+                }
 
                 return RedirectToAction("Index");
             }
@@ -89,19 +102,32 @@ namespace CA_InfoWebsite.Controllers
             }
         }
 
-        // GET: Brewery/Delete/5
+        [HttpGet]
         public ActionResult Delete(int id)
         {
-            return View();
+            BreweryRepository breweryRepository = new BreweryRepository();
+            Brewery brewery = new Brewery();
+
+            using (breweryRepository)
+            {
+                brewery = breweryRepository.SelectOne(id);
+            }
+
+            return View(brewery);
         }
 
-        // POST: Brewery/Delete/5
+
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Brewery brewery)
         {
             try
             {
-                // TODO: Add delete logic here
+                BreweryRepository breweryRepository = new BreweryRepository();
+
+                using (breweryRepository)
+                {
+                    breweryRepository.Delete(id);
+                }
 
                 return RedirectToAction("Index");
             }

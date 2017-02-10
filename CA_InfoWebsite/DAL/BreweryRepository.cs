@@ -25,9 +25,9 @@ namespace CA_InfoWebsite.DAL
         public Brewery SelectOne(int id)
         {
             //Brewery selectedBrewery =
-            (from brewery in _breweries
-             where brewery.Id == id
-             select brewery).FirstOrDefault();
+            //(from brewery in _breweries
+            // where brewery.Id == id
+            // select brewery).FirstOrDefault();
 
             Brewery selectedBrewery = _breweries.Where(p => p.Id == id).FirstOrDefault();
 
@@ -39,13 +39,23 @@ namespace CA_InfoWebsite.DAL
             _breweries.Add(brewery);
         }
 
-        public void Update(Brewery brewery)
+        public void Update(Brewery UpdateBrewery)
         {
-            
+            var oldBrewery = _breweries.Where(b => b.Id == UpdateBrewery.Id).FirstOrDefault();
+
+            if (oldBrewery != null)
+            {
+                _breweries.Remove(oldBrewery);
+                _breweries.Add(UpdateBrewery);
+            }
         }
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var brewery = _breweries.Where(b => b.Id == id).FirstOrDefault();
+            if (brewery != null)
+            {
+                _breweries.Remove(brewery);
+            }
         }
 
         public void Save()
