@@ -9,10 +9,18 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+
+<div id="FilterSortSearch">
+
+</div>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.Name).ToString(), "Index", new { sortOrder = "Name" })
+        </th>
+        <th>
+            @Html.ActionLink(@Html.DisplayNameFor(model => model.City).ToString(), "Index", new { sortOrder = "City" })
         </th>
         <th></th>
     </tr>
@@ -21,6 +29,9 @@
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

@@ -11,16 +11,34 @@ namespace CA_InfoWebsite.Controllers
     public class BreweryController : Controller
     {
 
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             BreweryRepository breweryRepository = new BreweryRepository();
             IEnumerable<Brewery> breweries;
 
             using (breweryRepository)
             {
-                breweries = breweryRepository.SelectAll();
+                breweries = breweryRepository.SelectAll() as IList<Brewery>;
             }
 
+            switch (sortOrder)
+            {
+                case "Name":
+                    breweries = breweries.OrderBy(brewery => brewery.Name);
+                    break;
+                case "City":
+                    breweries = breweries.OrderBy(brewery => brewery.City);
+                    break;
+                default:
+                    breweries = breweries.OrderBy(brewery => brewery.Name);
+                    break;
+            }
+
+                        //var sortedBreweries =
+            //    from brewery in breweries
+            //    orderby brewery.Name
+            //    select brewery;
+                                                     
             return View(breweries);
         }
 
@@ -82,7 +100,7 @@ namespace CA_InfoWebsite.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(int id, Brewery brewery)
+        public ActionResult Edit(Brewery brewery)
         {
             try
             {
@@ -90,7 +108,7 @@ namespace CA_InfoWebsite.Controllers
 
                 using (breweryRepository)
                 {
-                    breweryRepository.Update(id, brewery);
+                    breweryRepository.Update(brewery);
                 }
 
                 return RedirectToAction("Index");
