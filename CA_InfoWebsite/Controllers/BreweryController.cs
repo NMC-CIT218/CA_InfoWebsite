@@ -11,16 +11,41 @@ namespace CA_InfoWebsite.Controllers
     public class BreweryController : Controller
     {
 
-        public ActionResult Index(string sortOrder)
+        public ActionResult Index(string sortOrder, string searchCriteria, string cityFilter)
         {
+            //
+            // instantiate a repository
+            //
             BreweryRepository breweryRepository = new BreweryRepository();
-            IEnumerable<Brewery> breweries;
 
+            //
+            // return the data context as an enumerable
+            //
+            IEnumerable<Brewery> breweries;
             using (breweryRepository)
             {
                 breweries = breweryRepository.SelectAll() as IList<Brewery>;
             }
 
+            //
+            // if posted with a search on brewery name
+            //
+            if (searchCriteria != null)
+            {
+                breweries = breweries.Where(brewery => brewery.Name.ToUpper().Contains(searchCriteria.ToUpper()));
+            }
+
+            //
+            // if posted with a filter by city
+            //
+            if (cityFilter != "")
+            {
+                breweries = breweries.Where(brewery => brewery.City == cityFilter);
+            }
+            
+            //
+            // sort by name unless posted as a new sort
+            //
             switch (sortOrder)
             {
                 case "Name":
@@ -34,11 +59,11 @@ namespace CA_InfoWebsite.Controllers
                     break;
             }
 
-                        //var sortedBreweries =
+            //var sortedBreweries =
             //    from brewery in breweries
             //    orderby brewery.Name
             //    select brewery;
-                                                     
+
             return View(breweries);
         }
 
@@ -62,7 +87,7 @@ namespace CA_InfoWebsite.Controllers
             return View();
         }
 
-        
+
         [HttpPost]
         public ActionResult Create(Brewery brewery)
         {
