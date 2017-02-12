@@ -10,13 +10,50 @@ namespace CA_InfoWebsite.Controllers
 {
     public class BreweryController : Controller
     {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            //
+            // instantiate a repository
+            //
+            BreweryRepository breweryRepository = new BreweryRepository();
 
+            //
+            // create a distinct list of cities for the city filter
+            //
+            //IEnumerable<string> cities = ListOfCities();
+            ViewBag.Cities = ListOfCities();
+
+            //
+            // return the data context as an enumerable
+            //
+            IEnumerable<Brewery> breweries;
+            using (breweryRepository)
+            {
+                breweries = breweryRepository.SelectAll() as IList<Brewery>;
+            }
+
+            var sortedBreweries =
+                from brewery in breweries
+                orderby brewery.Name
+                select brewery;
+
+            return View(breweries);
+        }
+
+        [HttpPost]
         public ActionResult Index(string sortOrder, string searchCriteria, string cityFilter)
         {
             //
             // instantiate a repository
             //
             BreweryRepository breweryRepository = new BreweryRepository();
+
+            //
+            // create a distinct list of cities for the city filter
+            //
+            //IEnumerable<string> cities = ListOfCities();
+            ViewBag.Cities = ListOfCities();
 
             //
             // return the data context as an enumerable
@@ -38,7 +75,7 @@ namespace CA_InfoWebsite.Controllers
             //
             // if posted with a filter by city
             //
-            if (cityFilter != "")
+            if (cityFilter != "" || cityFilter == null)
             {
                 breweries = breweries.Where(brewery => brewery.City == cityFilter);
             }
@@ -58,15 +95,34 @@ namespace CA_InfoWebsite.Controllers
                     breweries = breweries.OrderBy(brewery => brewery.Name);
                     break;
             }
-
-            //var sortedBreweries =
-            //    from brewery in breweries
-            //    orderby brewery.Name
-            //    select brewery;
-
+            
             return View(breweries);
         }
 
+        [NonAction]
+        private IEnumerable<string> ListOfCities()
+        {
+            //
+            // instantiate a repository
+            //
+            BreweryRepository breweryRepository = new BreweryRepository();
+
+            //
+            // return the data context as an enumerable
+            //
+            IEnumerable<Brewery> breweries;
+            using (breweryRepository)
+            {
+                breweries = breweryRepository.SelectAll() as IList<Brewery>;
+            }
+
+            //
+            // get a distinct list of cities
+            //
+            var cities = breweries.Select(brewery => brewery.City).Distinct().OrderBy(x => x);
+
+            return cities;
+        }
 
         public ActionResult Details(int id)
         {

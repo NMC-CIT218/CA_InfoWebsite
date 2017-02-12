@@ -18,7 +18,8 @@
         <div class="form-group">
             @Html.Label("Filter by City", htmlAttributes: new { @class = "control-label col-md-2" })
             @Html.DropDownList("cityFilter",
-                    new SelectList(new List<string>() { "Cedar" }),
+                    new SelectList(@ViewBag.Cities),
+                    //new SelectList(new List<string>() { "Cedar" }),
                     "All Cities",
                     new { @class = "form-control" })
         </div>
