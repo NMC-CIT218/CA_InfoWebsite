@@ -6,9 +6,9 @@ using System.Web;
 
 namespace CA_InfoWebsite.DAL
 {
-    public struct InitializeSeedData
+    public static class InitializeSeedData
     {
-        public IList<Brewery> InitializeDataSet()
+        public static IEnumerable<Brewery> GetAllBreweries()
         {
             IList<Brewery> breweries = new List<Brewery>();
 

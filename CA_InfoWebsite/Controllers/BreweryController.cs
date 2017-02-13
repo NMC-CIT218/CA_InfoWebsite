@@ -11,7 +11,7 @@ namespace CA_InfoWebsite.Controllers
     public class BreweryController : Controller
     {
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string sortOrder)
         {
             //
             // instantiate a repository
@@ -33,16 +33,33 @@ namespace CA_InfoWebsite.Controllers
                 breweries = breweryRepository.SelectAll() as IList<Brewery>;
             }
 
-            var sortedBreweries =
-                from brewery in breweries
-                orderby brewery.Name
-                select brewery;
+
+            //
+            // sort by name unless posted as a new sort
+            //
+            switch (sortOrder)
+            {
+                case "Name":
+                    breweries = breweries.OrderBy(brewery => brewery.Name);
+                    break;
+                case "City":
+                    breweries = breweries.OrderBy(brewery => brewery.City);
+                    break;
+                default:
+                    breweries = breweries.OrderBy(brewery => brewery.Name);
+                    break;
+            }
+
+            //var sortedBreweries =
+            //    from brewery in breweries
+            //    orderby brewery.Name
+            //    select brewery;
 
             return View(breweries);
         }
 
         [HttpPost]
-        public ActionResult Index(string sortOrder, string searchCriteria, string cityFilter)
+        public ActionResult Index(string searchCriteria, string cityFilter)
         {
             //
             // instantiate a repository
@@ -78,22 +95,6 @@ namespace CA_InfoWebsite.Controllers
             if (cityFilter != "" || cityFilter == null)
             {
                 breweries = breweries.Where(brewery => brewery.City == cityFilter);
-            }
-            
-            //
-            // sort by name unless posted as a new sort
-            //
-            switch (sortOrder)
-            {
-                case "Name":
-                    breweries = breweries.OrderBy(brewery => brewery.Name);
-                    break;
-                case "City":
-                    breweries = breweries.OrderBy(brewery => brewery.City);
-                    break;
-                default:
-                    breweries = breweries.OrderBy(brewery => brewery.Name);
-                    break;
             }
             
             return View(breweries);
