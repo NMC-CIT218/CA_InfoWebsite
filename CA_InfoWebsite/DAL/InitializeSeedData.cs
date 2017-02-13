@@ -48,6 +48,18 @@ namespace CA_InfoWebsite.DAL
                 URL = "cedarrusticinn.com"
             });
 
+            breweries.Add(new Brewery
+            {
+                Id = 4,
+                Name = "Bravo Zulu Brewing",
+                Address = "6060 US31 North",
+                City = "Williamsburg",
+                State = "MI",
+                Zip = "49690",
+                Phone = "(231)943-1459",
+                URL = "bravozulubrewing.com"
+            });
+
             return breweries;
         }
     }
