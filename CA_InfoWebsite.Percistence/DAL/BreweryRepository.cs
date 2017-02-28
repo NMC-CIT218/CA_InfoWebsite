@@ -9,11 +9,16 @@ namespace CA_InfoWebsite.DAL
 {
     public class BreweryRepository : IBreweryRepository, IDisposable
     {
-        private IList<Brewery> _breweries;
+        private List<Brewery> _breweries;
 
         public BreweryRepository()
         {
-            _breweries = HttpContext.Current.Session["Breweries"] as IList<Brewery>;
+            BreweryXmlDataService breweryXmlDataService = new BreweryXmlDataService();
+
+            using (breweryXmlDataService)
+            {
+                _breweries = breweryXmlDataService.Read() as List<Brewery>;
+            }
         }
 
 
@@ -37,6 +42,8 @@ namespace CA_InfoWebsite.DAL
         public void Insert(Brewery brewery)
         {
             _breweries.Add(brewery);
+
+            Save();
         }
 
         public void Update(Brewery UpdateBrewery)
@@ -48,19 +55,29 @@ namespace CA_InfoWebsite.DAL
                 _breweries.Remove(oldBrewery);
                 _breweries.Add(UpdateBrewery);
             }
+
+            Save();
         }
         public void Delete(int id)
         {
             var brewery = _breweries.Where(b => b.Id == id).FirstOrDefault();
+
             if (brewery != null)
             {
                 _breweries.Remove(brewery);
             }
+
+            Save();
         }
 
         public void Save()
         {
+            BreweryXmlDataService breweryXmlDataService = new BreweryXmlDataService();
 
+            using (breweryXmlDataService)
+            {
+                breweryXmlDataService.Write(_breweries);
+            }
         }
 
         public void Dispose()

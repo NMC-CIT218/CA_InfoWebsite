@@ -10,6 +10,6 @@ namespace CA_InfoWebsite.Models
     public class Breweries
     {
         [XmlElement("Brewery")]
-        public IEnumerable<Brewery> breweries;
+        public List<Brewery> breweries;
     }
 }

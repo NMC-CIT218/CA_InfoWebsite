@@ -5,18 +5,20 @@ using System.Web;
 using CA_InfoWebsite.Models;
 using System.IO;
 using System.Xml.Serialization;
+using System.Web;
 
 namespace CA_InfoWebsite.DAL
 {
-    public class BreweryXmlDataService : IBreweryDataService
+    public class BreweryXmlDataService : IBreweryDataService, IDisposable
     {
-        public IEnumerable<Brewery> Read()
+        public List<Brewery> Read()
         {
             // a Breweries model is defined to pass a type to the XmlSerializer object 
             Breweries breweriesObject;
 
             // initialize a FileStream object for reading
-            StreamReader sReader = new StreamReader(DataSettings.dataFilePath);
+            string xmlFilePath = HttpContext.Current.Application["dataFilePath"].ToString();
+            StreamReader sReader = new StreamReader(xmlFilePath);
 
             // initialize an XML seriailizer object
             XmlSerializer deserializer = new XmlSerializer(typeof(Breweries));
@@ -33,17 +35,23 @@ namespace CA_InfoWebsite.DAL
             return breweriesObject.breweries;
         }
 
-        public void Write(IEnumerable<Brewery> breweries)
+        public void Write(List<Brewery> breweries)
         {
             // initialize a FileStream object for reading
-            StreamWriter sWriter = new StreamWriter(DataSettings.dataFilePath, false);
+            string xmlFilePath = HttpContext.Current.Application["dataFilePath"].ToString();
+            StreamWriter sWriter = new StreamWriter(xmlFilePath, false);
 
-            XmlSerializer serializer = new XmlSerializer(typeof(Breweries), new XmlRootAttribute("Breweries"));
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Brewery>), new XmlRootAttribute("Breweries"));
 
             using (sWriter)
             {
                 serializer.Serialize(sWriter, breweries);
             }
+        }
+
+        public void Dispose()
+        {
+            // set resources to be cleaned up
         }
     }
 }

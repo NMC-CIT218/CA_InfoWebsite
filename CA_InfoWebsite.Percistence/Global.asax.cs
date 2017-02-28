@@ -18,7 +18,8 @@ namespace CA_InfoWebsite
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-        }
+            Application["dataFilePath"] = HttpContext.Current.Server.MapPath("~/App_Data/NMMDb.xml");
+    }
 
         protected void Session_Start()
         {

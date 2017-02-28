@@ -11,7 +11,7 @@ namespace CA_InfoWebsite.DAL
     /// </summary>
     public interface IBreweryDataService
     {
-        IEnumerable<Brewery> Read();
-        void Write(IEnumerable<Brewery> Breweries);
+        List<Brewery> Read();
+        void Write(List<Brewery> Breweries);
     }
 }
